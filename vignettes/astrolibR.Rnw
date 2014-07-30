@@ -1,0 +1,240 @@
+
+\documentclass[Sweave,11pt]{article}
+
+%\VignetteIndexEntry{astrolibR}
+%\VignetteKeyword{Astronomy}
+
+\begin{document}
+
+\begin{center}
+
+{\Large\bf astrolibR: Astronomy Users Library for R} \\~\\
+
+{\large Arnab Chakraborty\footnote{Applied Statistics Unit, Indian Statistical Institute, 203 Barrackpore Trunk Road, Kolkata 700108, India, arnabc@isical.ac.in}\footnote{Center for Astrostatistics, 417 Thomas Building, Pennsylvania State University, University Park PA 16802}, Eric D. Feigelson$^2$\footnote{Department of Astronomy \& Astrophysics, 525 Davey Laboratory, Pennsylvania State University, University Park, PA 16802}\footnote{Department of Statistics, 325 Thomas Building, Pennsylvania State University, University Park PA 16802}, G. Jogesh Babu$^{243}$}
+
+\end{center}
+
+\section{Introduction}
+
+While astronomical research involves a wide variety of observational studies of celestial objects, certain aspects of data analysis arise very frequently.  Observers must link objects with fixed locations on the celestial sphere to changing locations in the local sky at the current time.  Knowledge of the location of Earth with respect to the Sun and other bodies of the Solar System is often needed.  Positions and brightnesses are affected by several subtle local effects such as precession and nutation or the Earth's rotation axis, aberration and refraction by the Earth's atmosphere, and absorption by the Galaxy's interstellar medium.  
+
+Software algorithms and computer codes have long been developed to treat these problems, and many are embedded in large data analysis software packages such as AIPS (Astronomical Image Processing System) for radio astronomy, IRAF (Image Reduction and Analysis Facility), and MIDAS (Munich Image Data Analysis System) which date to the 1970-80s.  The Interactive Data Language (IDL) emerged in the 1980s as a flexible environment for software development, and numerous utilities and codes were written in IDL to serve the community.  The Interactive Data Language\footnote{http://www.exelisvis.com/ProductsServices/IDL.aspx} is proprietary software system with a C-like grammar quite similar to the R public domain software system.  While IDL specializes in image analysis and R specializes in statistical analysis of tabular data, both are general purposes languages for data analysis. It is therefore not difficult to adapt IDL codes to R.
+
+Over 25 years, observational research astronomers have developed 'The IDL Astronomy Users Library ({\it astrolib}), an extensive collection of $\sim 500$ low-level utilities and codes for data analysis implemented in the Interactive Data Language.  This influential library is curated by Wayne Landsman at NASA's Goddard Space Flight Center\footnote{http://idlastro.gsfc.nasa.gov and https://github.com/wlandsman/IDLAstro}. 
+
+
+\section{Scope of astrolibR}
+
+This present CRAN package {\it astrolibR} adapts 64 astrolib utilities to the R language.  They treat various calculations for: time, coordinate and proper motion transformations; terrestrial precession and nutation, atmospheric refraction and aberration, barycentric corrections, and related effects; utilities for astrometry, photometry, and spectroscopy; and utilities for planetary, stellar, Galactic, and extragalactic science. These programs are listed in Table~1, where the first column gives the IDL program name and the second column gives the IDL one-line description\footnote{http://idlastro.gsfc.nasa.gov/contents.html. Note that an R function POLYIDL was created to substitute for IDL's POLY.pro procedure to avoid duplication with an existing R function.}.  
+
+Each IDL utility is adapted into an R function with the same name, but in lower-case letters (e.g., {\it ADSTRING.pro} in IDL is {\it adstring.R} in R).  The operation of each function is generally simple with scalar/vector/string quantities as input arguments and scalar/vector/string quantities as output values.  Outputs quantities are returned directly, or within an R {\it list} structure, or (occasionally) within an R {\it data.frame} structure.  Each utility can be used in isolation, although combinations are often convenient.  The R help files for {\it astrolibR} functions are modeled closely on the internal documentation of the IDL utilities, and have examples that illustrate their use.  None of the {\it astrolibR} functions create a special R {\it class} of output objects.  Standard R functions such as {\it summary}, {\it str}, {\it plot}, and {\it write.table} can be applied to show and utilize {\it astrolibR} outputs.  
+
+\section{IDL {\it astrolib} procedures not included in {\it astrolibR}}
+
+While the 64 {\it astrolib} procedures included in {\it astrolibR} constitute only a small fraction of the complete IDL {\it astrolib} library with $\sim$500 functions, they represent an important class of utilities with broad applications that are mostly absent from R and CRAN codes.  Table~2 gives IDL {\it astrolib} procedures that are not included in {\it astrolibR}.  Some are applicable to specific astronomical software environments such as the DAOPHOT software suite for stellar photometry, the IRAF code systems developed by the U.S. National Optical Astronomical Observatory serving ground-based telescopes, and the STSDAS software system developed by the Space Telescope Science Institute serving the orbiting Hubble Space Telescope.  Others refer to the Flexible Image Transport System (FITS)\footnote{https://fits.gsfc.nasa.gov} which defines universal standards for astronomical image and table formatting.  FITS input/output is treated by other CRAN packages.  Yet other IDL {\it astrolib} procedures implement primitive operations that do not involve astronomical data.  
+
+However, several dozen IDL {\it astrolib} procedures, mostly in the categories of "Math and statistics", "Plotting procedures", and "Robust statistics", have similar or identical functionalities in R or CRAN.  Table~2 lists these $\sim 65$ IDL procedures (in capital letters) and the corresponding R function or CRAN package.  
+
+Thus, between the astronomical utilities adapted in {\it astrolibR} (Table~1) and the mathematical, statistical and plotting functionalities already treated in R and CRAN (Table~2), about 130 procedures in the IDL {\it astrolib} library are available in the R software system.  Astronomers with codes dependent on IDL {\it astrolib} procedures who need the advanced statistical capabilities of R/CRAN can convert their codes to R with small or moderate effort.  
+
+\section{Related CRAN packages and R resources for \\ astronomy}
+
+The CRAN {\it Task View on Chemometrics and Computational Physics}\footnote{http://cran.r-project.org/web/views/ChemPhys.html} lists the rapidly growing CRAN packages associated with astronomy and astrophysics.  Some of these CRAN packages $-$ notably {\it astro}, {\it astroFns}, {\it celestial}, {\it cosmoFns}, and {\it moonsun} $-$ have functions that overlap those of {\it astrolibR}, although sometimes with simplified calculations.  The {\it FITSio} and {\it fitsR} CRAN packages provide access to astronomical data in FITS format.  
+
+Some ancillary services may be useful to the astronomer involved in data analysis using R.  The {\it Astrostatistics and Astroinformatics Portal} (ASAIP)\footnote{https://asaip.psu.edu} provides a variety of resources such as recent papers, lists of jobs and meetings, links to blogs, brief articles and discussion forums related to advanced statistical analysis in astronomy.  The Facebook group {\it Astronomy with R}\footnote{http://www.facebook.com/groups/astro.r} presents informal discussion for using R in astronomical research.  The textbook {\it Modern Statistical Methods for Astronomy with R Applications} (Feigelson \& Babu, 2012) gives many examples of R/CRAN usage for astronomy.  The R scripts and astronomical datasets for the text are available from Penn State's Center for Astrostatistics\footnote{http://astrostatistics.psu.edu/MSMA}.  
+
+\bigskip
+\noindent {\bf Acknowledgements:}  This work was supported by NSF's Scientific Software Infrastructure program,  SI2-SSE grant AST-1047586 (P.I. G. J. Babu).  AC performed most of the coding, and EDF wrote most of the documentation for {\it astrolibR}.  
+
+\bigskip
+\noindent{\bf Bibliography} 
+
+{\small
+\noindent Breen, J.\ 2011, Accessing databases from R, {http://www.slideshare.net/jeffreybreen /accessing-databases-from-r} \\
+Feigelson, E. D. and Babu, G. J.\ 2012, {\it Modern Statistical Methods for Astronomy with R Applications}, Cambridge Univ. Press\\
+Ripley, B. D.\ 2001,  Using databases with R, {\it R News}, 1(1):18-20
+
+
+\newpage
+
+
+\begin{center}
+{\large\bf Table 1: IDL {\it astrolib} procedures adapted to R in {\it astrolibR}}  \\
+~\\
+
+\begin{tabular}{ll}  
+{\bf Name} & {\bf Purpose} \\
+
+
+ADSTRING & Format RA and DEC as a character string \\
+AIRTOVAC &  Convert air wavelengths to vacuum wavelengths \\
+AITOFF & Convert longitude,latitude to X,Y using Aitoff equal-area projection\\
+ALTAZ2HADEC & Convert Horizon (Alt-Az) coordinates to Hour Angle and Declination\\
+BARYVEL & Compute components of barycentric Earth velocity, given Julian date \\
+BPRECESS & Precess coordinates, proper motion from J2000 to B1950 \\
+CALZ\_UNRED & Deredden a galaxy spectrum using the Calzetti et al. (2000) formula \\
+CCM\_UNRED & Deredden a spectrum using the Cardelli et al.  (1989) parameterization \\
+CIRRANGE & Force an angle into the range 0 $<=$ ang $<$ 360 \\
+CO\_ABERRATION & Calculate changes to Ra and Dec due to aberration effects \\
+CO\_NUTATE & Calculate changes in RA and Dec due to nutation of the Earth's rotation \\
+CO\_REFRACT & Calculate correction to altitude due to atmospheric refraction (with CO\_REFRACT\_FORWARD) \\
+COSMO\_PARAM & Derive a full set of cosmological parameters given a subset \\
+CT2LST & Convert from civil time to local sidereal time \\
+DAYCNV &  Convert from Julian Date to calendar date \\
+DEREDD &  Deredden Stromgren indices (called by UVBYBETA) \\
+ECI2GEO & Convert Earth-centered inertial coordinates to geographic  coords \\
+EQ2HOR & Convert celestial  (ra-dec) coords to local horizon coords (alt-az) \\
+EQPOLE & Convert longitude,latitude to X,Y using polar equal-area projection \\
+EULER & Astronomical coordinate system conversions \\
+FLUX2MAG & Convert from flux units to magnitudes \\
+FM\_UNRED & Deredden a spectrum using the Fitzpatrick \& Massa (1998) parameterization \\
+GAL\_UVW & Calculate the Galactic space velocity (U,V,W) of a star \\
+GALAGE & Derive a galaxy age as a function of redshift for a cosmological model (with DTDZ)\\
+GCIRC & Compute rigorous great circle distance \\
+GEO2ECI & Convert geographic coordinates to Earth-centered inertial coords \\
+GEO2GEODETIC & Convert from geographic to geodetic coordinates \\
+GEODETIC2GEO & Convert from geodetic to geographic coordinates \\
+GLACTC\_PM & Convert between celestial and Galactic (or Supergalactic) proper motion \\
+GLACTC & Convert between Galactic and equatorial coordinates at any equinox \\  
+HADEC2ALTAZ &  Converts Hour Angle and Declination to Horizon (alt-az) coordinates  \\                            
+HELIO\_JD & Convert geocentric (reduced) Julian date to heliocentric Julian date \\
+HELIO\_RV & Compute radial velocity given binary star orbit parameters \\
+HELIO & Compute (low-precision) heliocentric coordinates of the planets \\
+HOR2EQ & Convert local horizon coords (alt-az) to equatorial (ra-dec) \\
+IMF & Return values for a multi-component power law initial mass function \\
+ISMEUV & Compute EUV optical depth due to photoionization of HI, HeI and HeII \\
+
+\end{tabular}
+
+\begin{tabular}{ll}
+
+JDCNV & Convert from calendar date to Julian date (with INTDIV) \\
+JPRECESS & Precess positions \& proper motions from B1950 to J2000 \\
+JULDATE & Convert from calendar date to reduced Julian date \\
+LSF\_ROTATE & Create a 1-d convolution kernel to broaden a spectrum from a rotating star \\
+LUMDIST & Return luminosity distance for a given redshift \& cosmological model \\
+MAG2FLUX & Convert from magnitudes to flux units \\
+MONTH\_CNV & Convert a month name to the equivalent number or vice-versa \\
+MOONPOS & Compute the RA and Dec (and distance) of the Moon at a given date \\
+MPHASE & Compute illuminated fraction of the Moon's disk for given Julian dates \\
+NUTATE & Compute the nutation in longitude and latitude for given Julian date(s) \\
+PLANCK & Returns a blackbody flux for a given effective temperature \\
+PLANET\_COORDS & Return low-precision RA and Dec of planets give a date(s) \\
+POSANG & Compute the position angle between sources of specified RA and Dec \\
+PRECESS & Precess RA and Dec to a new equinox \\
+PREMAT & Returns precession matrix from equinox 1 to equinox 2 \\
+RADEC & Format RA, Dec as Hours, Min, Sec, Deg, Min, Sec \\
+RHOTHETA & Compute separation and position angle of a binary star \\
+SIXTY & Convert decimal number to sexigesimal \\
+SPHDIST & Return angular distance between two points on a sphere \\
+SUNPOS & Compute the RA and Dec of the Sun at a given date \\
+TEN & Convert sexigesimal number to decimal \\
+UBVYBETA & Use Stromgren indices to derive dereddened colors, metallicity, and $T_{eff}$ \\
+VACTOAIR & Convert vacuum wavelengths to air wavelengths \\
+XYZ & Compute heliocentric rectangular coordinates at given Julian date (with PRECESS\_XYZ) \\
+YMD2DN & Convert year,month,day to day number of the year  \\
+YDN2MD & Convert day number of the year to year, month,day \\
+ZANG & Compute angular size as a function of redshift in a Friedman cosmology
+\end{tabular}
+
+
+
+\newpage
+
+{\large\bf Table 2: Other {\it astrolib} procedures with counterparts in R}  \\
+~ \\
+
+\begin{tabular}{lll}  
+{\bf Category} & {\bf IDL} & {\bf R/CRAN } \\
+
+Utilities & AITOFF\_GRID 	& CRAN {\it mapproj}  \\
+            & EQPOLE\_GRID 	& CRAN  {\it mapproj} \\
+            & IMCONTOUR 		& R {\it contour}, lattice {\it contourplot}  \\
+            & TIC*\footnote{An asterisk represents a wildcard for several closely related IDL procedures}	& R {\it par, axTicks}  \\
+Photometry & 	(23 procedures)	& not available \\
+Databases & (28 procedures)	& CRAN {\it DBI}, {\it RSQLite}$^9$ \\
+IRAF I/O 	& (5 procedures)	& not available \\
+FITS I/O & (122 procedures)	& note 10 \\
+STSDAS I/O & (12 procedures)	& not available \\
+Image manipulation & (19 procedures)	& CRAN {\it adimpro}, Bioconductor {\it EBImage} \\
+Math/stat & AVG			& R {\it mean} \\
+		& AVSINH			& R { \it asinh} \\
+		& CIC			& R {\it loess}, CRAN {\it gstat, gsoR, RandomFields}${11}$ \\
+		& CSPLINE		& CRAN {\it splines}$^{11}$ \\
+		& FACTOR		& CRAN {\it gmp}  \\
+		& FITEXY			& not available (but see CRAN {\it simex}) \\
+		& FLEGENDRE		& CRAN {\it gaussquad, orthopolynom} \\
+		& GAUSSIAN		& R {\it rnorm} \\
+		& HERMITE		& R {\it splinefun} \\
+		& KS*$^{12}$		& R {\it ks.test} \\
+            & KUIPER*$^{12}$	& CRAN {\it CircStats} \\
+            & (M)LINMIX\_ERR	& not available \\
+            & LINTERP			& R {\it approx}$^{11}$ \\
+            & MEANCLIP		& note 13 \\
+            & MINF*$^{12}$	& R {\it optim, constrOptim} \\
+            & MRANDOM		& CRAN {\it mnormt, mvtnorm} \\
+            & MULTINOM		& R {\it rmultinom} \\
+            & NGP			& CRAN {\it RSAGA} \\
+            & PCA			& R {\it princomp} \\
+            & PENT			& not available \\
+            & PERMUTE		& R {\it sample} \\
+            & POIDEV			& R {\it rpois} \\
+            & POLINT			& R {\it loess}$^{11}$ \\
+            & POLYLEG		& CRAN {\it gaussquad, orthopolynom} \\
+            & POLY\_SMOOTH	& CRAN {\it RTisean, signal}$^{11}$ \\
+ 
+\end{tabular}
+
+\begin{tabular}{lll}
+            & PROB\_KS		& CRAN {\it ks, kolmin} \\
+            & PROB\_KUIPER	& CRAN {\it CircStats} \\
+            & QSIMP			& R {\it integrate}, CRAN {\it Bolstad} \\
+            & QTRAP 			& R {\it integrate} \\ 
+            & QUADTERP		&  R {\it loess}, CRAN {\it gstat, gsoR, RandomFields}$^{11}$ \\
+            & RANDOMCHI		& R {\it rchisq} \\
+            & RANDOMDIR		& CRAN {\it hyperdirichlet, MCMCpack} \\
+            & RANDOMGAM		& R {\it rgamma} \\
+            & RANDOMP		& CRAN {\it VGAM} \\
+            & RANDOMWISH	& R {\it rWishart} \\
+            & SIXLIN			& not available \\
+            & TABINV			& R {\it which} \\
+            & TRANSFORM\_COEFF & not available \\
+            & TRAPZD 			& not available \\
+            & TSC				& R {\it loess}, CRAN {\it gstat, gsoR, RandomFields}$^{11}$ \\
+            & TSUM			& R {\it integrate} \\
+            & ZBRENT			& R {\it uniroot, optimize} \\
+Plotting & AL\_LEGEND 	& R {\it legend}, CRAN{\it ggplot2} \\ 
+            & MULTIPLOT 		& R {\it plot}, CRAN {\it ggplot2} \\
+            & PLOTERROR 		& CRAN {\it gplots, ggplot2, Hmisc, psych} \\ 
+            & PLOTHIST 		& R {\it hist}, CRAN {\it ggplot2, gplots} \\
+            & PARTVELVEC  	& R {\it arrows}, CRAN {\it fields} \\
+            & SUNSYMBOL 		& note 14   \\
+            & VSYM 			& R {\it points} \\
+IDL structure & (7 procedures)& not available \\
+Robust stat 	& AUTOHIST 	& R {\it hist}, CRAN {\it ggplot2}   \\
+			& BIWEIGHT\_MEAN	& CRAN {\it biwt} \\
+			& HISTOGAUSS	& R {\it hist}, MASS{\it fitdistr} \\
+			& MEDSMOOTH 	& R {\it smooth}$^{11}$ \\
+			& RESISTANT\_MEAN 	& R {\it mean}, CRAN {\it robustbase, robust} \\
+			& ROBUST\_LINEFIT & R {\it line, rlm}, CRAN {\it robustbase, robust} \\
+			& ROBUST\_POLYFIT & R {\it rlm}, CRAN {\it robustbase, robust} \\ 
+			& ROBUST\_SIGMA & R {\it mad} \\
+Web sockets	& (5 procedures) & R {\it make.socket}, CRAN {\it Rserve, svSocket, websockets} \\
+TV display 	& (12 procedures)& not available \\
+Miscellaneous &  (66 procedures) & note 15 \\
+
+\end{tabular}
+
+\end{center}
+
+\noindent $^9$ See Ripley (2001) and Breen (2011) \\
+$^{10}$ Basic input and output functionalities for FITS (Flexible Image Transport System) files are provided by the CRAN package {\it fitsR} which is based on the {\it CFITSIO} codes endorsed by the International Astronomical Union.  It places FITS headers into R scalar and vector variables, binary tables into R data frames, images into R arrays.  Many of the other functionalities of these IDL procedures can be reproduced using standard R manipulation functions for data frames and arrays. \\
+$^{11}$ R has many low-dimensional smoothers and interpolators, a few of which are indicated here.  See Chpts. 6, 11 and 12 in Feigelson \& Babu (2012). \\
+$^{12}$ An asterisk represents a wildcard for several closely related IDL procedures. \\
+$^{13}$ A brief R script for `sigma clipping' is given by Alastair Sanderson at \\ {http://www.sr.bham.ac.uk/$\sim$ajrs/R/r-getting\_started.html}. \\
+$^{14}$ Several options for producing the solar symbol (circle with central dot) in R graphics so they appear correctly in PDF and EPS output formats are described at the {\it Astronomy with R} Facebook group ({https://www.facebook.com/groups/astro.r}). \\
+$^{15}$ These are mostly generic low level manipulations of files, string manipulations, and interactions with the host computer that are not considered here, as they are not specifically astronomical in nature.  Most of these capabilities are directly available, or readily coded, in R.
+}
+
+\end{document}
+
